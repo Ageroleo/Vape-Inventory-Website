@@ -453,10 +453,9 @@ export const AdminStockDrawer: React.FC<AdminStockDrawerProps> = ({
                 })}
               </div>
 
-              {/* Bottom PIN Hint */}
-              <div className="mt-5 flex items-center justify-between w-full max-w-xs px-2 text-[11px] font-mono-spec text-slate-400 dark:text-zinc-500">
-                <span>Default PIN: <strong className="text-teal-600 dark:text-teal-400 font-bold">2026</strong></span>
-                <span>Touch / Keyboard</span>
+              {/* Bottom Input Hint */}
+              <div className="mt-5 flex items-center justify-center w-full max-w-xs px-2 text-[11px] font-mono-spec text-slate-400 dark:text-zinc-500">
+                <span>Touch / Keyboard Supported</span>
               </div>
             </div>
           ) : (

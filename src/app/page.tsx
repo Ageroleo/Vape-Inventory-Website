@@ -88,7 +88,8 @@ export default function HomePage() {
   // Compute total available in-stock flavors
   const totalFlavorsInStock = useMemo(() => {
     return products.reduce((acc, p) => {
-      return acc + p.flavors.filter((f) => f.status !== 'out_of_stock' && f.stockCount > 0).length;
+      const flavors = Array.isArray(p?.flavors) ? p.flavors : [];
+      return acc + flavors.filter((f) => f.status !== 'out_of_stock' && f.stockCount > 0).length;
     }, 0);
   }, [products]);
 
@@ -98,7 +99,8 @@ export default function HomePage() {
     let nonTransparent = 0;
 
     products.forEach((p) => {
-      const piecesSum = p.flavors.reduce((sum, f) => {
+      const flavors = Array.isArray(p?.flavors) ? p.flavors : [];
+      const piecesSum = flavors.reduce((sum, f) => {
         return f.status !== 'out_of_stock' ? sum + (f.stockCount || 0) : sum;
       }, 0);
 
@@ -119,6 +121,9 @@ export default function HomePage() {
   const filteredProducts = useMemo(() => {
     return products
       .filter((p) => {
+        if (!p || !p.id) return false;
+        const flavors = Array.isArray(p.flavors) ? p.flavors : [];
+
         // Category
         if (filters.category !== 'all' && p.category !== filters.category) {
           return false;
@@ -131,7 +136,7 @@ export default function HomePage() {
 
         // In-Stock Only filter
         if (filters.inStockOnly) {
-          const hasInStock = p.flavors.some((f) => f.status !== 'out_of_stock' && f.stockCount > 0);
+          const hasInStock = flavors.some((f) => f.status !== 'out_of_stock' && f.stockCount > 0);
           if (!hasInStock) return false;
         }
 
@@ -146,10 +151,10 @@ export default function HomePage() {
         // Cooling Filter
         if (filters.coolingFilter !== 'all') {
           if (filters.coolingFilter === 'high-ice') {
-            const hasHighIce = p.flavors.some((f) => f.coolingLevel >= 4);
+            const hasHighIce = flavors.some((f) => f.coolingLevel >= 4);
             if (!hasHighIce) return false;
           } else if (filters.coolingFilter === 'low-ice') {
-            const hasLowIce = p.flavors.some((f) => f.coolingLevel <= 3);
+            const hasLowIce = flavors.some((f) => f.coolingLevel <= 3);
             if (!hasLowIce) return false;
           }
         }
@@ -159,7 +164,7 @@ export default function HomePage() {
           const q = filters.searchQuery.toLowerCase();
           const matchesTitle = p.name.toLowerCase().includes(q);
           const matchesBrand = p.brand.toLowerCase().includes(q);
-          const matchesFlavor = p.flavors.some((f) => f.name.toLowerCase().includes(q));
+          const matchesFlavor = flavors.some((f) => f.name.toLowerCase().includes(q));
           if (!matchesTitle && !matchesBrand && !matchesFlavor) {
             return false;
           }
@@ -168,9 +173,12 @@ export default function HomePage() {
         return true;
       })
       .sort((a, b) => {
+        const flavorsA = Array.isArray(a.flavors) ? a.flavors : [];
+        const flavorsB = Array.isArray(b.flavors) ? b.flavors : [];
+
         if (filters.sortBy === 'stock-high') {
-          const stockA = a.flavors.reduce((acc, f) => acc + f.stockCount, 0);
-          const stockB = b.flavors.reduce((acc, f) => acc + f.stockCount, 0);
+          const stockA = flavorsA.reduce((acc, f) => acc + (f.stockCount || 0), 0);
+          const stockB = flavorsB.reduce((acc, f) => acc + (f.stockCount || 0), 0);
           return stockB - stockA;
         }
         if (filters.sortBy === 'price-asc') {
