@@ -2,7 +2,12 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { VapeProduct, FlavorVariant, FilterState } from '@/types/vape';
-import { getStoredInventory, INVENTORY_EVENT } from '@/lib/inventoryService';
+import { 
+  getStoredInventory, 
+  INVENTORY_EVENT, 
+  fetchInventoryFromCloud, 
+  subscribeToInventoryRealtime 
+} from '@/lib/inventoryService';
 import { Navbar } from '@/components/Navbar';
 import { HeroSpotlight } from '@/components/HeroSpotlight';
 import { FilterBar } from '@/components/FilterBar';
@@ -39,10 +44,17 @@ export default function HomePage() {
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [toastData, setToastData] = useState<ToastData | null>(null);
 
-  // Load and subscribe to inventory changes
+  // Load and subscribe to inventory changes (Local + Cloud Realtime)
   useEffect(() => {
     setMounted(true);
     setProducts(getStoredInventory());
+
+    // Fetch latest cloud state from Supabase
+    fetchInventoryFromCloud().then((cloudProducts) => {
+      if (cloudProducts) {
+        setProducts(cloudProducts);
+      }
+    });
 
     const handleUpdate = (e: Event) => {
       const customEvent = e as CustomEvent<VapeProduct[]>;
@@ -54,7 +66,16 @@ export default function HomePage() {
     };
 
     window.addEventListener(INVENTORY_EVENT, handleUpdate);
-    return () => window.removeEventListener(INVENTORY_EVENT, handleUpdate);
+
+    // Subscribe to multi-user Supabase Realtime broadcast
+    const unsubscribeRealtime = subscribeToInventoryRealtime((newProducts) => {
+      setProducts(newProducts);
+    });
+
+    return () => {
+      window.removeEventListener(INVENTORY_EVENT, handleUpdate);
+      unsubscribeRealtime();
+    };
   }, []);
 
   // Compute live brands available
