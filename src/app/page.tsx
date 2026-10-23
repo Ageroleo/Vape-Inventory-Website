@@ -16,6 +16,7 @@ import { ProductDetailModal } from '@/components/ProductDetailModal';
 import { AdminStockDrawer } from '@/components/AdminStockDrawer';
 import { AgeVerificationModal } from '@/components/AgeVerificationModal';
 import { MessengerToast, ToastData } from '@/components/MessengerToast';
+import { ComingSoonCard } from '@/components/ComingSoonCard';
 import { generateReservationMessage, openMessengerReservation } from '@/lib/messenger';
 import { PackageOpen, RotateCcw, Sparkles, ShieldCheck } from 'lucide-react';
 
@@ -265,6 +266,19 @@ export default function HomePage() {
                 onInstantReserve={handleInstantReserve}
               />
             ))}
+
+            {/* "More Coming Soon" Card */}
+            <ComingSoonCard
+              onRequestFlavor={(msg) => {
+                setToastData({
+                  productName: 'Restock Drop Request',
+                  brand: 'Rash Vape',
+                  flavorName: 'Custom Request',
+                  price: 0,
+                  message: msg,
+                });
+              }}
+            />
           </div>
         ) : (
           /* Clean Minimal Empty State */
