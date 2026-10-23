@@ -20,14 +20,8 @@ export function getStoredInventory(): VapeProduct[] {
       return INITIAL_PRODUCTS;
     }
     const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed) && parsed.length === INITIAL_PRODUCTS.length) {
-      const hasBothBrands = parsed.some((p: VapeProduct) => p.brand === 'Black Elite') &&
-                            parsed.some((p: VapeProduct) => p.brand === 'Black A Elite');
-      const hasUpdatedPrices = parsed.some((p: VapeProduct) => p.price === 320) &&
-                               parsed.some((p: VapeProduct) => p.price === 270);
-      if (hasBothBrands && hasUpdatedPrices) {
-        return parsed;
-      }
+    if (Array.isArray(parsed) && parsed.length > 0) {
+      return parsed;
     }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_PRODUCTS));
     return INITIAL_PRODUCTS;

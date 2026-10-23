@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShieldAlert, CheckCircle2, XCircle } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 
 export const AgeVerificationModal: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,56 +29,47 @@ export const AgeVerificationModal: React.FC = () => {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 dark:bg-black/85 backdrop-blur-xl">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 dark:bg-black/70 backdrop-blur-sm">
         <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          initial={{ opacity: 0, scale: 0.95, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: -20 }}
-          transition={{ duration: 0.25, ease: 'easeOut' }}
-          className="relative w-full max-w-sm sm:max-w-md overflow-hidden rounded-2xl border border-slate-200 dark:border-white/10 bg-white/95 dark:bg-zinc-950/90 p-5 sm:p-8 shadow-2xl text-center transition-colors"
+          exit={{ opacity: 0, scale: 0.95, y: -15 }}
+          transition={{ duration: 0.2, ease: 'easeOut' }}
+          className="relative w-full max-w-sm rounded-2xl border border-neutral-200/90 dark:border-white/[0.08] bg-white dark:bg-[#12141c] p-6 sm:p-7 shadow-2xl text-center transition-colors"
         >
-          {/* Neon accent line */}
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-400 via-purple-500 to-teal-400" />
-
-          {/* Age Icon */}
-          <div className="mx-auto mb-4 sm:mb-5 flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl bg-teal-500/10 border border-teal-500/20 text-teal-600 dark:text-teal-400">
-            <ShieldAlert className="h-7 w-7 sm:h-8 sm:w-8" />
+          {/* Minimalist Age Shield */}
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200">
+            <ShieldCheck className="h-6 w-6" />
           </div>
 
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold uppercase tracking-wider bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 mb-3">
-            Age Verification Required
-          </div>
-
-          <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white mb-2 font-space">
-            Are you 21 or older?
+          <h2 className="text-lg sm:text-xl font-bold tracking-tight text-neutral-900 dark:text-white mb-1.5 font-space">
+            Age Verification
           </h2>
 
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed mb-5 sm:mb-6">
-            You must be of legal smoking and vaping age (21+) in your jurisdiction to browse live inventory, view nicotine products, or reserve stock.
+          <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed mb-6">
+            You must be of legal smoking and vaping age (21+) to browse live inventory and reserve products.
           </p>
 
-          <div className="space-y-3">
+          <div className="space-y-2">
             <button
               id="age-verify-enter-btn"
               onClick={handleConfirm}
-              className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-medium text-black bg-gradient-to-r from-teal-400 to-teal-300 hover:from-teal-300 hover:to-teal-200 transition-all duration-200 shadow-lg shadow-teal-500/20 active:scale-[0.98] cursor-pointer"
+              className="w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold text-white bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-100 transition-all cursor-pointer shadow-xs active:scale-98"
             >
-              <CheckCircle2 className="w-5 h-5" />
-              <span>I am of Legal Age (Enter)</span>
+              I am 21 or Older
             </button>
 
             <button
               id="age-verify-exit-btn"
               onClick={handleReject}
-              className="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-medium text-slate-600 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-zinc-200 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-900/80 dark:hover:bg-zinc-800 border border-slate-200 dark:border-white/5 transition-all duration-200 cursor-pointer text-sm"
+              className="w-full py-2.5 px-4 rounded-xl text-xs font-medium text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-white transition-colors cursor-pointer"
             >
-              <XCircle className="w-4 h-4" />
-              <span>Exit (Under 21)</span>
+              Exit
             </button>
           </div>
 
-          <p className="mt-5 text-[11px] text-slate-400 dark:text-zinc-500">
-            By entering, you confirm you meet local age regulations. Nicotine is an addictive chemical.
+          <p className="mt-4 text-[10px] text-neutral-400 dark:text-neutral-600">
+            Strictly 21+ only. Nicotine is an addictive chemical.
           </p>
         </motion.div>
       </div>

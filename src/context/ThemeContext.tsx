@@ -11,7 +11,7 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType>({
-  theme: 'dark',
+  theme: 'light',
   toggleTheme: () => {},
   setTheme: () => {},
 });
@@ -19,7 +19,7 @@ const ThemeContext = createContext<ThemeContextType>({
 const THEME_STORAGE_KEY = 'rash_vape_theme_mode';
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [theme, setThemeState] = useState<ThemeMode>('dark');
+  const [theme, setThemeState] = useState<ThemeMode>('light');
   const [mounted, setMounted] = useState(false);
 
   const applyTheme = (t: ThemeMode) => {
@@ -50,11 +50,11 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   useEffect(() => {
     try {
       const saved = localStorage.getItem(THEME_STORAGE_KEY) as ThemeMode | null;
-      const initial: ThemeMode = saved === 'light' || saved === 'dark' ? saved : 'dark';
+      const initial: ThemeMode = saved === 'light' || saved === 'dark' ? saved : 'light';
       setThemeState(initial);
       applyTheme(initial);
     } catch {
-      applyTheme('dark');
+      applyTheme('light');
     }
     setMounted(true);
   }, []);

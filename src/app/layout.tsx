@@ -45,7 +45,7 @@ export default function RootLayout({
               (function() {
                 try {
                   var saved = localStorage.getItem('rash_vape_theme_mode');
-                  var theme = (saved === 'light' || saved === 'dark') ? saved : 'dark';
+                  var theme = (saved === 'light' || saved === 'dark') ? saved : 'light';
                   if (theme === 'dark') {
                     document.documentElement.classList.add('dark');
                     document.documentElement.classList.remove('light');
@@ -61,7 +61,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen bg-slate-50 dark:bg-canvas-dark text-slate-900 dark:text-slate-100 bg-ambient-glow antialiased selection:bg-teal-500/30 selection:text-teal-900 dark:selection:text-teal-200 transition-colors duration-250">
+      <body className="min-h-screen bg-[#fafafa] dark:bg-[#090a0f] text-neutral-900 dark:text-neutral-100 antialiased selection:bg-emerald-500/20 selection:text-emerald-950 dark:selection:text-emerald-200 transition-colors duration-200">
         <ThemeProvider>
           {children}
         </ThemeProvider>
