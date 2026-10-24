@@ -25,6 +25,15 @@ export const metadata: Metadata = {
   title: 'Rash Vape | Live In-Stock Showcase & Flavor Menu',
   description: 'Real-time vape inventory showcase. Check live stock, flavor variants, puff counts, and reserve for instant pickup or delivery.',
   keywords: ['vape shop', 'disposables', 'pod system', 'e-liquid', 'live inventory', 'flavor stock'],
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/icon.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
 };
 
 export default function RootLayout({
